@@ -10,11 +10,13 @@ interface LocationsListProps {
 const LocationsList: React.FC<LocationsListProps> = ({locations, lastElementRef}) => {
     return (
         <>
-            {locations.length > 0 && locations.map((location, index) => {
-                    return <LocationListItem location={location}
-                                             lastElementRef={locations.length - 1 === index ? lastElementRef : null}/>
-                }
-            )}
+            <div className='lg:w-1/2 m-auto'>
+                {locations.map((location, index) => {
+                        return <LocationListItem location={location} key={location.locationId}
+                                                 lastElementRef={locations.length - 1 === index ? lastElementRef : null}/>
+                    }
+                )}
+            </div>
         </>
     );
 };

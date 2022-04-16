@@ -2,10 +2,12 @@ import React, {useCallback, useRef, useState} from 'react';
 import useLocations from "../../hooks/useLocations";
 import Loader from "../../components/Loader";
 import LocationsList from "./components/LocationsList";
+import ErrorAlert from "../../components/ErrorAlert";
+import EmptyLocationsList from "./components/EmptyLocationsList";
 
 const HomePage = () => {
     const [page, setPage] = useState<number>(0);
-    const {isLoading, locations} = useLocations(page)
+    const {isLoading, error, locations} = useLocations(page)
     const ref = useRef<IntersectionObserver>();
 
     const lastLocationElementRef = useCallback((node: HTMLDivElement) => {
@@ -26,9 +28,11 @@ const HomePage = () => {
     }, [isLoading])
 
     return (
-        <div>
-            <LocationsList locations={locations} lastElementRef={lastLocationElementRef}/>
+        <div className='my-10'>
+            {locations.length > 0 && <LocationsList locations={locations} lastElementRef={lastLocationElementRef} />}
             {isLoading && <Loader />}
+            {error && <ErrorAlert error={error} />}
+            {!isLoading && !locations.length && <EmptyLocationsList />}
         </div>
     )
 };
